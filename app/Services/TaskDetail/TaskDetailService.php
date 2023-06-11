@@ -2,34 +2,34 @@
 
 namespace App\Services\TaskDetail;
 
-use App\Enums\TaskDetailEndPoint;
+use App\DataTransferObjects\TaskDetailDto;
 use App\Models\TaskDetail;
 
 class TaskDetailService
 {
-    public function show(string $id): TaskDetail
+    public function show(int $id): TaskDetail
     {
         return TaskDetail::findOrFail($id);
     }
 
-    public function store(string $title, string $description, string $status, TaskDetailEndPoint $taskDetailEndPoint): TaskDetail
+    public function store(TaskDetailDto $taskDetailDto): TaskDetail
     {
 
         return TaskDetail::create([
-            'title' => $title,
-            'description' => $description,
-            'status' => $status,
-            'end_point' => $taskDetailEndPoint,
+            'title' => $taskDetailDto->title,
+            'description' => $taskDetailDto->description,
+            'status' => $taskDetailDto->status,
+            'end_point' => $taskDetailDto->end_point,
         ]);
     }
 
-    public function update(TaskDetail $taskDetail, string $title, string $description, string $status): TaskDetail
+    public function update(TaskDetail $taskDetail, TaskDetailDto $taskDetailDto): TaskDetail
     {
 
         return tap($taskDetail)->update([
-            'title' => $title,
-            'description' => $description,
-            'status' => $status,
+            'title' => $taskDetailDto->title,
+            'description' => $taskDetailDto->description,
+            'status' => $taskDetailDto->status,
         ]);
     }
 
