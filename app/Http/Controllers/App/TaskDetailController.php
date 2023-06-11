@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\App;
 
+use App\DataTransferObjects\TaskDetailDto;
 use App\Enums\TaskDetailEndPoint;
 use App\Models\TaskDetail;
 use App\Requests\App\TaskDetailRequest;
@@ -33,10 +34,7 @@ class TaskDetailController
     {
 
         $task = $this->service->store(
-            $request->get('title'),
-            $request->get('description'),
-            $request->get('status'),
-            TaskDetailEndPoint::App
+            TaskDetailDto::fromAppRequest($request)
         );
 
         return TaskDetailResource::make(
@@ -49,9 +47,7 @@ class TaskDetailController
 
         $task = $this->service->update(
             $taskDetail,
-            $request->get('title'),
-            $request->get('description'),
-            $request->get('status')
+            TaskDetailDto::fromAppRequest($request)
         );
 
         return TaskDetailResource::make(

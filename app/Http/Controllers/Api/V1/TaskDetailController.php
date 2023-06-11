@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-use App\Enums\TaskDetailEndPoint;
+use App\DataTransferObjects\TaskDetailDto;
 use App\Models\TaskDetail;
 use App\Requests\Api\TaskDetailRequest;
 use App\Resources\Api\TaskDetailResource;
@@ -33,10 +33,7 @@ class TaskDetailController
     {
 
         $task = $this->service->store(
-            $request->get('title'),
-            $request->get('description'),
-            $request->get('status'),
-            TaskDetailEndPoint::Api
+            TaskDetailDto::fromApiRequest($request)
         );
 
         return TaskDetailResource::make(
@@ -50,9 +47,7 @@ class TaskDetailController
 
         $task = $this->service->update(
             $taskDetail,
-            $request->get('title'),
-            $request->get('description'),
-            $request->get('status')
+            TaskDetailDto::fromApiRequest($request)
         );
 
         return TaskDetailResource::make(
